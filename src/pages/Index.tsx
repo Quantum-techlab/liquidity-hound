@@ -69,9 +69,9 @@ const Index = () => {
               <Settings className="h-4 w-4" />
               <span className="hidden sm:inline">Config</span>
             </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center gap-2 data-[state=active]:gradient-primary">
-              <History className="h-4 w-4" />
-              <span className="hidden sm:inline">History</span>
+            <TabsTrigger value="wallet" className="flex items-center gap-2 data-[state=active]:gradient-primary">
+              <Wallet className="h-4 w-4" />
+              <span className="hidden sm:inline">Wallet</span>
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:gradient-primary">
               <BarChart3 className="h-4 w-4" />
@@ -82,12 +82,12 @@ const Index = () => {
           <TabsContent value="dashboard" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1 space-y-6">
-                <div className="animate-float">
+                <div>
                   <BotStatus isRunning={isRunning} onToggleBot={handleToggleBot} />
                 </div>
               </div>
               <div className="lg:col-span-2">
-                <div className="animate-float" style={{ animationDelay: "0.2s" }}>
+                <div>
                   <Analytics />
                 </div>
               </div>
@@ -95,19 +95,19 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="config" className="space-y-6">
-            <div className="animate-float">
+            <div>
               <BotConfig onConfigSave={handleConfigSave} />
             </div>
           </TabsContent>
 
           <TabsContent value="history" className="space-y-6">
-            <div className="animate-float">
+            <div>
               <TransactionHistory />
             </div>
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
-            <div className="animate-float">
+            <div>
               <Analytics className="w-full" />
             </div>
           </TabsContent>

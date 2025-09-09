@@ -157,6 +157,10 @@ All colors MUST be HSL.
     50% { transform: translateY(-10px); }
   }
 
+  .animate-float-disabled {
+    animation: none;
+  }
+
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
   }

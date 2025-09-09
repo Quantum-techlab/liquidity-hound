@@ -33,7 +33,8 @@ export const Navigation = () => {
   
   const navItems = [
     { path: "/", icon: BarChart3, label: "Dashboard" },
-    { path: "/history", icon: History, label: "History" },
+    { path: "/wallet-connect", icon: Wallet, label: "Connect" },
+    { path: "/wallet-monitor", icon: History, label: "Monitor" },
     { path: "/settings", icon: Settings, label: "Settings" },
   ];
 
@@ -119,9 +120,15 @@ export const Navigation = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/wallets" className="flex items-center gap-2">
+                  <Link to="/wallet-connect" className="flex items-center gap-2">
                     <Wallet className="h-4 w-4" />
-                    Wallets
+                    Connect Wallet
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/wallet-monitor" className="flex items-center gap-2">
+                    <History className="h-4 w-4" />
+                    Monitor Wallet
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
