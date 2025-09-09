@@ -7,7 +7,8 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { BarChart3, History, Settings, TrendingUp, Zap, Shield, Activity } from "lucide-react";
+import { BarChart3, History, Settings, TrendingUp, Zap, Shield, Activity, Wallet } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [isRunning, setIsRunning] = useState(false);
