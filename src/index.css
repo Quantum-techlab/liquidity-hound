@@ -1,172 +1,122 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+import { useState } from "react";
+import { BotConfig } from "@/components/dashboard/BotConfig";
+import { BotStatus } from "@/components/dashboard/BotStatus";
+import { TransactionHistory } from "@/components/dashboard/TransactionHistory";
+import { Analytics } from "@/components/dashboard/Analytics";
+import { Navigation } from "@/components/layout/Navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "@/hooks/use-toast";
+import { BarChart3, History, Settings, TrendingUp, Zap, Shield, Activity } from "lucide-react";
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+const Index = () => {
+  const [isRunning, setIsRunning] = useState(false);
 
-@layer base {
-  :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+  const handleToggleBot = () => {
+    setIsRunning(!isRunning);
+    toast({
+      title: isRunning ? "Bot Stopped" : "Bot Started",
+      description: isRunning 
+        ? "DeFi sniper bot has been stopped successfully." 
+        : "DeFi sniper bot is now monitoring for new tokens.",
+    });
+  };
 
-    --card: 240 10% 5.9%;
-    --card-foreground: 0 0% 98%;
+  const handleConfigSave = (config: any) => {
+    toast({
+      title: "Configuration Saved",
+      description: "Bot configuration has been updated successfully.",
+    });
+  };
 
-    --popover: 240 10% 5.9%;
-    --popover-foreground: 0 0% 98%;
+  const quickStats = [
+    { label: "Active Monitors", value: "12", icon: Activity, color: "text-blue-500" },
+    { label: "Success Rate", value: "76.3%", icon: TrendingUp, color: "text-primary" },
+    { label: "Total Profit", value: "$2,847", icon: Zap, color: "text-green-500" },
+    { label: "Security Score", value: "A+", icon: Shield, color: "text-purple-500" },
+  ];
 
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 0 0% 98%;
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <Navigation />
+      
+      <div className="container mx-auto px-4 py-6 space-y-6">
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {quickStats.map((stat) => (
+            <Card key={stat.label} className="glass-card shadow-card hover:shadow-glow transition-all duration-300">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+                    <p className="text-2xl font-bold">{stat.value}</p>
+                  </div>
+                  <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+        {/* Main Dashboard */}
+        <Tabs defaultValue="dashboard" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4 glass-card">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2 data-[state=active]:gradient-primary">
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden sm:inline">Dashboard</span>
+            </TabsTrigger>
+            <TabsTrigger value="config" className="flex items-center gap-2 data-[state=active]:gradient-primary">
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Config</span>
+            </TabsTrigger>
+            <TabsTrigger value="wallet" className="flex items-center gap-2 data-[state=active]:gradient-primary">
+              <Wallet className="h-4 w-4" />
+              <span className="hidden sm:inline">Wallet</span>
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:gradient-primary">
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+          </TabsList>
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+          <TabsContent value="dashboard" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1 space-y-6">
+                <div>
+                  <BotStatus isRunning={isRunning} onToggleBot={handleToggleBot} />
+                </div>
+              </div>
+              <div className="lg:col-span-2">
+                <div>
+                  <Analytics />
+                </div>
+              </div>
+            </div>
+          </TabsContent>
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+          <TabsContent value="config" className="space-y-6">
+            <div>
+              <BotConfig onConfigSave={handleConfigSave} />
+            </div>
+          </TabsContent>
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+          <TabsContent value="wallet" className="space-y-6">
+            <div>
+              <Card className="glass-card shadow-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+            </div>
+          </TabsContent>
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142.1 76.2% 36.3%;
+          <TabsContent value="analytics" className="space-y-6">
+            <div>
+              <Analytics className="w-full" />
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
 
-    --success: 142.1 76.2% 36.3%;
-    --success-foreground: 0 0% 98%;
-
-    --warning: 45.4 93.4% 47.5%;
-    --warning-foreground: 26 83.3% 14.1%;
-
-    --info: 217.2 91.2% 59.8%;
-    --info-foreground: 0 0% 98%;
-
-    --gradient-primary: linear-gradient(135deg, hsl(142.1 76.2% 36.3%), hsl(158.1 64.4% 51.6%));
-    --gradient-secondary: linear-gradient(135deg, hsl(240 3.7% 15.9%), hsl(240 5.9% 10%));
-    --gradient-accent: linear-gradient(135deg, hsl(217.2 91.2% 59.8%), hsl(212.7 26.8% 83.9%));
-
-    --shadow-primary: 0 10px 30px -10px hsl(142.1 76.2% 36.3% / 0.3);
-    --shadow-card: 0 4px 12px -2px hsl(240 10% 3.9% / 0.8);
-    --shadow-glow: 0 0 40px hsl(142.1 76.2% 36.3% / 0.15);
-
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .light {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142.1 76.2% 36.3%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
-  }
-
-  .gradient-primary {
-    background: var(--gradient-primary);
-  }
-
-  .gradient-secondary {
-    background: var(--gradient-secondary);
-  }
-
-  .gradient-accent {
-    background: var(--gradient-accent);
-  }
-
-  .shadow-primary {
-    box-shadow: var(--shadow-primary);
-  }
-
-  .shadow-card {
-    box-shadow: var(--shadow-card);
-  }
-
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
-
-  .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50;
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-
-  .animate-float-disabled {
-    animation: none;
-  }
-
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes glow {
-    from { box-shadow: 0 0 20px hsl(var(--primary) / 0.2); }
-    to { box-shadow: 0 0 40px hsl(var(--primary) / 0.4); }
-  }
-}
+export default Index;
