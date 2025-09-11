@@ -4,17 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Bot, Mail, Lock, Github, Chrome } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // This will need Supabase integration for actual authentication
     console.log("Login attempt:", { email, password });
+    // Simulate successful login and redirect to dashboard
+    navigate("/");
   };
 
   return (
@@ -68,6 +72,22 @@ export const Login = () => {
                 />
               </div>
 
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="remember"
+                    checked={rememberMe}
+                    onCheckedChange={setRememberMe}
+                  />
+                  <Label htmlFor="remember" className="text-sm">
+                    Remember me
+                  </Label>
+                </div>
+                <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
+
               <Button type="submit" className="w-full gradient-primary shadow-primary">
                 Sign In
               </Button>
@@ -97,7 +117,7 @@ export const Login = () => {
 
             <div className="text-center text-sm">
               <span className="text-muted-foreground">Don't have an account? </span>
-              <Link to="/signup" className="text-primary hover:underline font-medium">
+              <Link to="/sign-up" className="text-primary hover:underline font-medium">
                 Sign up
               </Link>
             </div>
@@ -105,11 +125,11 @@ export const Login = () => {
         </Card>
 
         {/* Demo Notice */}
-        <Card className="glass-card border-warning/20">
+        <Card className="glass-card border-primary/20">
           <CardContent className="pt-6">
-            <div className="text-center text-sm text-muted-foreground">
-              <p className="font-medium text-warning mb-1">Demo Mode</p>
-              <p>This is a UI mockup. Connect to Supabase for authentication.</p>
+            <div className="text-center text-sm">
+              <p className="font-medium text-primary mb-1">Welcome to DeFi Sniper Bot</p>
+              <p className="text-muted-foreground">Start your automated trading journey today</p>
             </div>
           </CardContent>
         </Card>

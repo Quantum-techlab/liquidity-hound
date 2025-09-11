@@ -22,7 +22,8 @@ import {
   Wallet,
   Shield,
   Menu,
-  X
+  X,
+  HelpCircle
 } from "lucide-react";
 
 export const Navigation = () => {
@@ -33,9 +34,10 @@ export const Navigation = () => {
   
   const navItems = [
     { path: "/", icon: BarChart3, label: "Dashboard" },
-    { path: "/wallet-connect", icon: Wallet, label: "Connect" },
-    { path: "/wallet-monitor", icon: History, label: "Monitor" },
+    { path: "/trading", icon: BarChart3, label: "Trading" },
+    { path: "/wallet-connect", icon: Wallet, label: "Wallet" },
     { path: "/settings", icon: Settings, label: "Settings" },
+    { path: "/help", icon: HelpCircle, label: "Help" },
   ];
 
   // Mock user data - would come from auth context in real app
@@ -128,13 +130,19 @@ export const Navigation = () => {
                 <DropdownMenuItem asChild>
                   <Link to="/wallet-monitor" className="flex items-center gap-2">
                     <History className="h-4 w-4" />
-                    Monitor Wallet
+                    Wallet Monitor
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/security" className="flex items-center gap-2">
                     <Shield className="h-4 w-4" />
                     Security
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/help" className="flex items-center gap-2">
+                    <HelpCircle className="h-4 w-4" />
+                    Help & Support
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
